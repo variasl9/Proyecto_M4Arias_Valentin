@@ -1,3 +1,10 @@
+import { AuthProvider } from './features/auth/AuthProvider';
+import { AppRouter } from './routes/AppRouter';
+
 export default function App() {
-  return <h1>MateCode Tasks</h1>;
+  return (
+    <AuthProvider>
+      <AppRouter />
+    </AuthProvider>
+  );
 }
