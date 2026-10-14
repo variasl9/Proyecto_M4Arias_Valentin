@@ -3,6 +3,7 @@ import { useTasks } from '../hooks/useTasks';
 import { logout } from '../services/authService';
 import { TodoForm } from '../components/TodoForm';
 import { TodoList } from '../components/TodoList';
+import { SendSummaryButton } from '../components/SendSummaryButton';
 
 export default function TasksPage() {
   const { user } = useAuth();
@@ -24,7 +25,10 @@ export default function TasksPage() {
       </section>
 
       <section className="card">
-        <h2>Mis tareas</h2>
+        <div className="topbar">
+          <h2>Mis tareas</h2>
+          <SendSummaryButton />
+        </div>
 
         {error && (
           <p role="alert" className="error">
