@@ -12,6 +12,8 @@ const tasks: Task[] = [
     description: 'desc',
     completed: false,
     createdAt: 2,
+    priority: 'medium',
+    dueDate: null,
   },
   {
     id: '2',
@@ -20,6 +22,8 @@ const tasks: Task[] = [
     description: '',
     completed: true,
     createdAt: 1,
+    priority: 'medium',
+    dueDate: null,
   },
 ];
 
