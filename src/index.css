@@ -104,3 +104,51 @@ ul {
     padding: 1.5rem;
   }
 }
+select {
+  padding: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font: inherit;
+  width: 100%;
+  background: #fff;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+}
+
+.badge {
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  background: #e5e7eb;
+}
+
+.badge.high {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.badge.medium {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.badge.low {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.due {
+  font-size: 0.85rem;
+  color: #555;
+}
+
+.due.overdue {
+  color: #b91c1c;
+  font-weight: 600;
+}

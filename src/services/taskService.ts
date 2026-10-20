@@ -24,9 +24,15 @@ export function subscribeToTasks(
   return onSnapshot(
     q,
     (snapshot) => {
-      const tasks = snapshot.docs.map(
-        (d) => ({ id: d.id, ...d.data() }) as Task,
-      );
+      const tasks = snapshot.docs.map((d) => {
+        const data = d.data();
+        return {
+          id: d.id,
+          ...data,
+          priority: data.priority ?? 'medium',
+          dueDate: data.dueDate ?? null,
+        } as Task;
+      });
       tasks.sort((a, b) => b.createdAt - a.createdAt);
       onData(tasks);
     },

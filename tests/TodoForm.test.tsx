@@ -29,8 +29,10 @@ describe('TodoForm', () => {
     );
 
     expect(onSubmit).toHaveBeenCalledWith({
-      title: 'Estudiar React',
-      description: 'Hooks',
+    title: 'Estudiar React',
+    description: 'Hooks',
+    priority: 'medium',
+    dueDate: null,
     });
     expect(screen.getByLabelText('Título')).toHaveValue('');
   });

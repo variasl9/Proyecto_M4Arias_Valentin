@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import type { Task, TaskInput } from '../types';
 import { TodoForm } from './TodoForm';
+import { priorityLabels } from '../utils/priority';
+import { formatDueDate, isOverdue } from '../utils/dates';
 
 interface Props {
   task: Task;
@@ -16,7 +18,12 @@ export function TodoItem({ task, onToggle, onEdit, onDelete }: Props) {
     return (
       <li>
         <TodoForm
-          initialValues={{ title: task.title, description: task.description }}
+          initialValues={{
+            title: task.title,
+            description: task.description,
+            priority: task.priority,
+            dueDate: task.dueDate,
+          }}
           submitLabel="Guardar"
           onCancel={() => setEditing(false)}
           onSubmit={async (input) => {
@@ -28,10 +35,24 @@ export function TodoItem({ task, onToggle, onEdit, onDelete }: Props) {
     );
   }
 
+  const overdue = isOverdue(task.dueDate, task.completed);
+
   return (
     <li className={`task ${task.completed ? 'done' : ''}`}>
       <h3>{task.title}</h3>
       {task.description && <p>{task.description}</p>}
+
+      <p className="meta">
+        <span className={`badge ${task.priority}`}>
+          Prioridad {priorityLabels[task.priority]}
+        </span>
+        {task.dueDate && (
+          <span className={overdue ? 'due overdue' : 'due'}>
+            Vence: {formatDueDate(task.dueDate)}
+            {overdue && ' (vencida)'}
+          </span>
+        )}
+      </p>
 
       <div className="actions">
         <button className="secondary" onClick={() => onToggle(task)}>

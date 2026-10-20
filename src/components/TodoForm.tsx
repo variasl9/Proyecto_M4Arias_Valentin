@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react';
-import type { TaskInput } from '../types';
+import type { TaskInput, TaskPriority } from '../types';
 import { validateTitle } from '../utils/validators';
+import { priorityLabels, priorityOptions } from '../utils/priority';
 
 interface Props {
   onSubmit: (input: TaskInput) => Promise<void> | void;
@@ -19,6 +20,10 @@ export function TodoForm({
   const [description, setDescription] = useState(
     initialValues?.description ?? '',
   );
+  const [priority, setPriority] = useState<TaskPriority>(
+    initialValues?.priority ?? 'medium',
+  );
+  const [dueDate, setDueDate] = useState(initialValues?.dueDate ?? '');
   const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: FormEvent) => {
@@ -31,11 +36,18 @@ export function TodoForm({
     }
 
     setError(null);
-    await onSubmit({ title: title.trim(), description: description.trim() });
+    await onSubmit({
+      title: title.trim(),
+      description: description.trim(),
+      priority,
+      dueDate: dueDate || null,
+    });
 
     if (!initialValues) {
       setTitle('');
       setDescription('');
+      setPriority('medium');
+      setDueDate('');
     }
   };
 
@@ -53,6 +65,27 @@ export function TodoForm({
         id="description"
         value={description}
         onChange={(e) => setDescription(e.target.value)}
+      />
+
+      <label htmlFor="priority">Prioridad</label>
+      <select
+        id="priority"
+        value={priority}
+        onChange={(e) => setPriority(e.target.value as TaskPriority)}
+      >
+        {priorityOptions.map((option) => (
+          <option key={option} value={option}>
+            {priorityLabels[option]}
+          </option>
+        ))}
+      </select>
+
+      <label htmlFor="dueDate">Fecha de vencimiento (opcional)</label>
+      <input
+        id="dueDate"
+        type="date"
+        value={dueDate}
+        onChange={(e) => setDueDate(e.target.value)}
       />
 
       {error && (
