@@ -8,3 +8,4 @@ export interface Task {
 }
 
 export type TaskInput = Pick<Task, 'title' | 'description'>;
+export type TaskFilter = 'all' | 'pending' | 'completed';
