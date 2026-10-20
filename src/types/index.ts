@@ -17,3 +17,4 @@ export type TaskInput = Pick<
 >;
 
 export type TaskFilter = 'all' | 'pending' | 'completed';
+export type TaskSort = 'recent' | 'priority' | 'dueDate';
