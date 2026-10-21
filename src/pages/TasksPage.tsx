@@ -13,12 +13,21 @@ import { SendSummaryButton } from '../components/SendSummaryButton';
 
 export default function TasksPage() {
   const { user } = useAuth();
-  const { tasks, loading, error, addTask, editTask, toggleTask, removeTask } =
-    useTasks(user!.uid);
+  const {
+    tasks,
+    loading,
+    error,
+    addTask,
+    editTask,
+    toggleTask,
+    removeTask,
+    reorderTasks,
+  } = useTasks(user!.uid);
   const [filter, setFilter] = useState<TaskFilter>('all');
   const [sort, setSort] = useState<TaskSort>('recent');
 
   const visibleTasks = sortTasks(filterTasks(tasks, filter), sort);
+  const canReorder = sort === 'manual' && filter === 'all';
 
   return (
     <>
@@ -43,6 +52,17 @@ export default function TasksPage() {
         <TaskFilters value={filter} onChange={setFilter} />
         <TaskSortSelect value={sort} onChange={setSort} />
 
+        {canReorder && (
+          <p className="hint">
+            Arrastrá las tareas desde el ícono ⠿ para reordenarlas.
+          </p>
+        )}
+        {sort === 'manual' && filter !== 'all' && (
+          <p className="hint">
+            Para arrastrar tareas, elegí el filtro «Todas».
+          </p>
+        )}
+
         {error && (
           <p role="alert" className="error">
             {error}
@@ -59,6 +79,8 @@ export default function TasksPage() {
             onToggle={toggleTask}
             onEdit={editTask}
             onDelete={removeTask}
+            sortable={canReorder}
+            onReorder={reorderTasks}
           />
         )}
       </section>

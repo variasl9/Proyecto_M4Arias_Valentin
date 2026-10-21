@@ -152,3 +152,28 @@ select {
   color: #b91c1c;
   font-weight: 600;
 }
+.task-head {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.task-head h3 {
+  margin: 0;
+}
+
+.handle {
+  padding: 0.3rem 0.6rem;
+  cursor: grab;
+  touch-action: none;
+}
+
+.handle:active {
+  cursor: grabbing;
+}
+
+.hint {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #555;
+}

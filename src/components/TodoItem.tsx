@@ -1,22 +1,33 @@
-import { useState } from 'react';
+import { useState, type CSSProperties, type ReactNode, type Ref } from 'react';
 import type { Task, TaskInput } from '../types';
 import { TodoForm } from './TodoForm';
 import { priorityLabels } from '../utils/priority';
 import { formatDueDate, isOverdue } from '../utils/dates';
 
-interface Props {
+export interface TodoItemProps {
   task: Task;
   onToggle: (task: Task) => void;
   onEdit: (id: string, input: TaskInput) => Promise<void> | void;
   onDelete: (id: string) => void;
+  dragHandle?: ReactNode;
+  liRef?: Ref<HTMLLIElement>;
+  liStyle?: CSSProperties;
 }
 
-export function TodoItem({ task, onToggle, onEdit, onDelete }: Props) {
+export function TodoItem({
+  task,
+  onToggle,
+  onEdit,
+  onDelete,
+  dragHandle,
+  liRef,
+  liStyle,
+}: TodoItemProps) {
   const [editing, setEditing] = useState(false);
 
   if (editing) {
     return (
-      <li>
+      <li ref={liRef} style={liStyle}>
         <TodoForm
           initialValues={{
             title: task.title,
@@ -38,8 +49,15 @@ export function TodoItem({ task, onToggle, onEdit, onDelete }: Props) {
   const overdue = isOverdue(task.dueDate, task.completed);
 
   return (
-    <li className={`task ${task.completed ? 'done' : ''}`}>
-      <h3>{task.title}</h3>
+    <li
+      ref={liRef}
+      style={liStyle}
+      className={`task ${task.completed ? 'done' : ''}`}
+    >
+      <div className="task-head">
+        {dragHandle}
+        <h3>{task.title}</h3>
+      </div>
       {task.description && <p>{task.description}</p>}
 
       <p className="meta">
