@@ -9,6 +9,7 @@ const options: { value: TaskSort; label: string }[] = [
   { value: 'recent', label: 'Más recientes' },
   { value: 'priority', label: 'Prioridad (alta primero)' },
   { value: 'dueDate', label: 'Fecha de vencimiento' },
+  { value: 'manual', label: 'Orden manual (arrastrar)' },
 ];
 
 export function TaskSortSelect({ value, onChange }: Props) {

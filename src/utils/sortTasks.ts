@@ -6,6 +6,8 @@ const priorityWeight: Record<TaskPriority, number> = {
   low: 2,
 };
 
+const orderOf = (task: Task) => task.order ?? task.createdAt;
+
 export function sortTasks(tasks: Task[], sort: TaskSort): Task[] {
   const copy = [...tasks];
 
@@ -24,6 +26,10 @@ export function sortTasks(tasks: Task[], sort: TaskSort): Task[] {
       if (b.dueDate === null) return -1;
       return a.dueDate < b.dueDate ? -1 : 1;
     });
+  }
+
+  if (sort === 'manual') {
+    return copy.sort((a, b) => orderOf(b) - orderOf(a));
   }
 
   return copy.sort((a, b) => b.createdAt - a.createdAt);

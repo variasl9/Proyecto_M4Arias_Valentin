@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import type { Task, TaskInput } from '../types';
 import * as taskService from '../services/taskService';
+import { computeOrders } from '../utils/reorder';
 
 export function useTasks(userId: string) {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -59,6 +60,11 @@ export function useTasks(userId: string) {
       safe(
         () => taskService.deleteTask(id),
         'No se pudo eliminar la tarea.',
+      ),
+    reorderTasks: (orderedIds: string[]) =>
+      safe(
+        () => taskService.reorderTasks(computeOrders(orderedIds)),
+        'No se pudo reordenar las tareas.',
       ),
   };
 }

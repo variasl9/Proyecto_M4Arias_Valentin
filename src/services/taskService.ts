@@ -7,10 +7,12 @@ import {
   query,
   updateDoc,
   where,
+  writeBatch,
   type Unsubscribe,
 } from 'firebase/firestore';
 import { db } from './firebase';
 import type { Task, TaskInput } from '../types';
+import type { OrderUpdate } from '../utils/reorder';
 
 const tasksCol = collection(db, 'tasks');
 
@@ -40,13 +42,16 @@ export function subscribeToTasks(
   );
 }
 
-export const createTask = (userId: string, input: TaskInput) =>
-  addDoc(tasksCol, {
+export const createTask = (userId: string, input: TaskInput) => {
+  const now = Date.now();
+  return addDoc(tasksCol, {
     ...input,
     userId,
     completed: false,
-    createdAt: Date.now(),
+    createdAt: now,
+    order: now,
   });
+};
 
 export const updateTask = (
   id: string,
@@ -54,3 +59,11 @@ export const updateTask = (
 ) => updateDoc(doc(db, 'tasks', id), data);
 
 export const deleteTask = (id: string) => deleteDoc(doc(db, 'tasks', id));
+
+export async function reorderTasks(updates: OrderUpdate[]): Promise<void> {
+  const batch = writeBatch(db);
+  updates.forEach(({ id, order }) => {
+    batch.update(doc(db, 'tasks', id), { order });
+  });
+  await batch.commit();
+}

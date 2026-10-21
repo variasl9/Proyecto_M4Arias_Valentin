@@ -9,6 +9,7 @@ export interface Task {
   createdAt: number;
   priority: TaskPriority;
   dueDate: string | null;
+  order?: number;
 }
 
 export type TaskInput = Pick<
@@ -17,4 +18,5 @@ export type TaskInput = Pick<
 >;
 
 export type TaskFilter = 'all' | 'pending' | 'completed';
-export type TaskSort = 'recent' | 'priority' | 'dueDate';
+
+export type TaskSort = 'recent' | 'priority' | 'dueDate' | 'manual';
