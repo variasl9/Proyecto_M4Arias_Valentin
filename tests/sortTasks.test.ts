@@ -58,4 +58,23 @@ describe('sortTasks', () => {
 
     expect(ids(tasks)).toEqual(['a', 'b']);
   });
+    it('con "manual" ordena por order de mayor a menor', () => {
+    const tasks = [
+      makeTask({ id: 'a', order: 1 }),
+      makeTask({ id: 'b', order: 3 }),
+      makeTask({ id: 'c', order: 2 }),
+    ];
+
+    expect(ids(sortTasks(tasks, 'manual'))).toEqual(['b', 'c', 'a']);
+  });
+
+  it('con "manual" usa createdAt si la tarea no tiene order', () => {
+    const tasks = [
+      makeTask({ id: 'a', order: 10, createdAt: 1 }),
+      makeTask({ id: 'b', createdAt: 20 }),
+      makeTask({ id: 'c', createdAt: 5 }),
+    ];
+
+    expect(ids(sortTasks(tasks, 'manual'))).toEqual(['b', 'a', 'c']);
+  });
 });
